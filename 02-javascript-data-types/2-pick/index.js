@@ -6,13 +6,12 @@
  */
 export const pick = (obj, ...fields) => {
   const newObj = {};
-  const keys = Object.keys(obj);
 
-  keys.forEach((key) => {
-    if (fields.includes(key)) {
-      newObj[key] = obj[key];
+  for (const prop in obj) {
+    if (fields.includes(obj[prop])) {
+      newObj[prop] = obj[prop];
     }
-  });
+  }
 
   return newObj;
 };
