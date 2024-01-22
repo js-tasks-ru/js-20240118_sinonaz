@@ -6,4 +6,19 @@
  */
 export function trimSymbols(string, size) {
 
+  if (size === 0) {
+    return '';
+  } else if (!size) {
+    return string;
+  } else {
+    let counter = 0;
+    let previousLetter;
+
+    return string.split('').map((currentLetter) => {
+      counter = currentLetter === previousLetter ? counter += 1 : 1;
+      previousLetter = currentLetter;
+
+      return counter <= size ? currentLetter : '';
+    }).join('');
+  }
 }
