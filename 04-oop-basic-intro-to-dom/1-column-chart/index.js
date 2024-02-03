@@ -41,18 +41,8 @@ export default class ColumnChart {
 
   }
 
-
-  getColumnChartTemplate(data) {
-    if (!data) {
-      return `<div class="column-chart column-chart_loading" style="--chart-height: 50">
-    <div class="column-chart__title"></div>
-    <div class="column-chart__container">
-      <div data-element="header" class="column-chart__header"></div>
-      <div data-element="body" class="column-chart__chart"></div>
-    </div>
-  </div>`;
-    } else {
-      return `<div class="column-chart" style="--chart-height: 50">
+  getElementTemplate(data) {
+    return `<div class="column-chart" style="--chart-height: 50">
     <div class="column-chart__title">
       ${data.label ? data.label : ``}
       ${data.link ? `<a href="${data.link}" class="column-chart__link">View all</a>` : ``}
@@ -64,6 +54,20 @@ export default class ColumnChart {
       </div>
     </div>
   </div>`;
-    }
+  }
+
+  getLoadingElementTemplate() {
+    return `<div class="column-chart column-chart_loading" style="--chart-height: 50">
+    <div class="column-chart__title"></div>
+    <div class="column-chart__container">
+      <div data-element="header" class="column-chart__header"></div>
+      <div data-element="body" class="column-chart__chart"></div>
+    </div>
+  </div>`;
+  }
+
+
+  getColumnChartTemplate(data) {
+    return data ? this.getElementTemplate(data) : this.getLoadingElementTemplate();
   }
 }
