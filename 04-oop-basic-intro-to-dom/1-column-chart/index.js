@@ -38,7 +38,11 @@ export default class ColumnChart {
   }
 
   update(data) {
+    const bodyElement = this.element.querySelector(`.column-chart__chart`);
 
+    bodyElement.innerHTML = ``;
+
+    bodyElement.insertAdjacentHTML(`beforeend`, this.getColumnsTemplate(data));
   }
 
   getElementTemplate(data) {
@@ -50,7 +54,7 @@ export default class ColumnChart {
     <div class="column-chart__container">
       <div data-element="header" class="column-chart__header">${data.formatHeading ? data.formatHeading(data.value) : data.value}</div>
       <div data-element="body" class="column-chart__chart">
-        ${!data.data ? `` : `${this.getColumnProps(data.data).map((item) => `<div style="--value: ${item.value}" data-tooltip="${item.percent}%"></div>`).join(``)}`}
+      ${!data.data ? `` : this.getColumnsTemplate(data.data)}
       </div>
     </div>
   </div>`;
@@ -64,6 +68,10 @@ export default class ColumnChart {
       <div data-element="body" class="column-chart__chart"></div>
     </div>
   </div>`;
+  }
+
+  getColumnsTemplate(data) {
+    return `${this.getColumnProps(data).map((item) => `<div style="--value: ${item.value}" data-tooltip="${item.percent}%"></div>`).join(``)}`;
   }
 
 
