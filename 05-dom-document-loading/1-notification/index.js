@@ -5,6 +5,7 @@ export default class NotificationMessage {
   message;
   duration;
   type;
+  lastMessage;
 
   constructor(message, options = {}) {
     this.message = message ? message : ``;
@@ -35,14 +36,15 @@ export default class NotificationMessage {
   show(parent = document.body) {
     const notificationParentElement = parent;
 
-    if (this.element) {
-      this.destroy();
+    if (this.lastMessage) {
+      this.lastMessage.destroy();
     }
 
+    this.lastMessage = this.element;
     notificationParentElement.append(this.element);
 
     setTimeout(() => {
-      this.destroy();
+      this.remove();
     }, this.duration);
   }
 
