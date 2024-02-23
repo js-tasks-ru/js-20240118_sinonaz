@@ -36,11 +36,11 @@ export default class NotificationMessage {
   show(parent = document.body) {
     const notificationParentElement = parent;
 
-    if (this.lastMessage) {
-      this.lastMessage.destroy();
+    if (NotificationMessage.lastMessage) {
+      NotificationMessage.lastMessage.destroy();
     }
 
-    this.lastMessage = this.element;
+    NotificationMessage.lastMessage = this.element;
     notificationParentElement.append(this.element);
 
     setTimeout(() => {
