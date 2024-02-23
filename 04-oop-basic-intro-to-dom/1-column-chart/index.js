@@ -45,7 +45,7 @@ export default class ColumnChart {
     bodyElement.insertAdjacentHTML(`beforeend`, this.getColumnsTemplate(data));
   }
 
-  getElementTemplate(data) {
+  createTemplate(data) {
     return `<div class="column-chart" style="--chart-height: 50">
     <div class="column-chart__title">
       ${data.label ? data.label : ``}
@@ -76,6 +76,6 @@ export default class ColumnChart {
 
 
   getColumnChartTemplate(data) {
-    return data ? this.getElementTemplate(data) : this.getLoadingElementTemplate();
+    return data ? this.createTemplate(data) : this.getLoadingElementTemplate();
   }
 }

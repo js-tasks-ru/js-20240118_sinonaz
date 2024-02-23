@@ -64,9 +64,13 @@ class Tooltip {
     document.addEventListener('pointermove', this.onDocumentPointermove);
   }
 
-  onDocumentPointerout = () => {
-    this.remove();
-    document.removeEventListener('pointermove', this.onDocumentPointermove);
+  onDocumentPointerout = (event) => {
+    const target = event.target;
+
+    if (target.dataset.tooltip) {
+      this.remove();
+      document.removeEventListener('pointermove', this.onDocumentPointermove);
+    }
   }
 
   onDocumentPointermove = (event) => {

@@ -1,3 +1,5 @@
+const DURATION = 2000;
+
 export default class NotificationMessage {
   element;
   message;
@@ -7,11 +9,7 @@ export default class NotificationMessage {
   constructor(message, options = {}) {
     this.message = message ? message : ``;
     this.type = options.type ? options.type : ``;
-    this.duration = options.duration ? options.duration : 2000;
-
-    if (this.element) {
-      this.destroy();
-    }
+    this.duration = options.duration ? options.duration : DURATION;
 
     this.element = this.getElement();
   }
@@ -19,12 +17,12 @@ export default class NotificationMessage {
   getElement() {
     const wrapElement = document.createElement(`div`);
 
-    wrapElement.innerHTML = this.getElementTemplate();
+    wrapElement.innerHTML = this.createTemplate();
 
     return wrapElement.firstChild;
   }
 
-  getElementTemplate() {
+  createTemplate() {
     return `<div class="notification ${this.type}" style="--value:${this.duration}ms">
     <div class="timer"></div>
     <div class="inner-wrapper">
@@ -34,8 +32,12 @@ export default class NotificationMessage {
   </div>`;
   }
 
-  show(parent) {
-    const notificationParentElement = parent ? parent : document.body;
+  show(parent = document.body) {
+    const notificationParentElement = parent;
+
+    if (this.element) {
+      this.destroy();
+    }
 
     notificationParentElement.append(this.element);
 

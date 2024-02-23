@@ -23,12 +23,12 @@ export default class SortableTable {
   getElement() {
     const wrapElement = document.createElement(`div`);
 
-    wrapElement.innerHTML = this.getElementTemplate();
+    wrapElement.innerHTML = this.createTemplate();
 
     return wrapElement.firstChild;
   }
 
-  getElementTemplate() {
+  createTemplate() {
     return `<div class="sortable-table">
 
     <div data-element="header" class="sortable-table__header sortable-table__row">
@@ -61,13 +61,18 @@ export default class SortableTable {
   }
 
   getDataTemplate() {
-    return `${this.data.map((item) => `<a href="/products/${item.id}" class="sortable-table__row">
-    ${this.headerConfig.template ? this.headerConfig.template(this.data) : ``}
-      <div class="sortable-table__cell">${item.title}</div>
-      ${item.quantity ? `<div class="sortable-table__cell">${item.quantity}</div>` : ``}
-      <div class="sortable-table__cell">${item.price}</div>
-      <div class="sortable-table__cell">${item.sales}</div>
-    </a>`).join(``)}`;
+    return `${this.data.map((item) =>
+      `<a href="/products/${item.id}" class="sortable-table__row">
+      ${this.headerConfig.map(config => this.createTableBodyCell(config, item)).join(``)}
+      </a>`).join(``)}`;
+  }
+
+  createTableBodyCell = (config, item) => {
+    if (config.template) {
+      return config.template(item);
+    }
+
+    return `<div class="sortable-table__cell">${item[config.id]}</div>`;
   }
 
   sort(field, order) {
@@ -86,8 +91,8 @@ export default class SortableTable {
   compareCallback(sortType, fieldValue, orderValue) {
     const getter = this.createGetter(fieldValue);
     const direction = {
-      'asc': 1,
-      'desc': -1
+      asc: 1,
+      desc: -1
     };
 
     switch (sortType) {
